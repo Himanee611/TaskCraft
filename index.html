@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskCraft | Task Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <main class="app-container">
+
+        <header class="topbar">
+            <div class="brand">
+                <div class="brand-icon">T</div>
+                <div>
+                    <h1>TaskCraft</h1>
+                    <p>Plan better. Focus better.</p>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <button id="themeToggle" class="icon-btn"
+                    title="Switch theme" aria-label="Switch theme">☀</button>
+            </div>
+        </header>
+
+        <div class="dashboard-container">
+
+            <section class="page-heading">
+                <div>
+                    <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+                    <h2>Dashboard</h2>
+                    <p class="muted-text">
+                        Organize your tasks and make every minute count.
+                    </p>
+                </div>
+                <div id="currentDate" class="current-date"></div>
+            </section>
+
+            <section class="summary-grid">
+                <article class="summary-card">
+                    <div class="summary-icon">▤</div>
+                    <p>Total Tasks</p>
+                    <h3 id="totalTasks">0</h3>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-icon">✓</div>
+                    <p>Completed</p>
+                    <h3 id="completedTasks">0</h3>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-icon">◷</div>
+                    <p>Pending</p>
+                    <h3 id="pendingTasks">0</h3>
+                </article>
+
+                <article class="summary-card">
+                    <div class="summary-icon">⌛</div>
+                    <p>Time Tracked</p>
+                    <h3 id="totalTracked">0m</h3>
+                </article>
+            </section>
+
+            <section class="panel" id="taskFormPanel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">STAY ORGANIZED</p>
+                        <h2 id="taskFormTitle">Create a New Task</h2>
+                    </div>
+                </div>
+
+                <form id="taskForm" class="task-form">
+                    <div class="form-group full-width">
+                        <label for="taskTitle">Task name</label>
+                        <input type="text" id="taskTitle"
+                            placeholder="Example: Complete Mathematics Homework"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskCategory">Category</label>
+                        <select id="taskCategory">
+                            <option value="Study">Study</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Work">Work</option>
+                            <option value="Project">Project</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskPriority">Priority</label>
+                        <select id="taskPriority">
+                            <option value="Low">Low</option>
+                            <option value="Medium" selected>Medium</option>
+                            <option value="High">High</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDate">Task date</label>
+                        <input type="date" id="taskDate" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskDeadline">Deadline (optional)</label>
+                        <input type="date" id="taskDeadline">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskHours">Estimated hours</label>
+                        <input type="number" id="taskHours"
+                            min="0" max="100" value="1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="taskMinutes">Estimated minutes</label>
+                        <input type="number" id="taskMinutes"
+                            min="0" max="59" value="0" required>
+                    </div>
+
+                    <div class="form-actions full-width">
+                        <button type="submit" id="saveTaskBtn" class="primary-btn">
+                            Add Task
+                        </button>
+
+                        <button type="button" id="cancelEditBtn"
+                            class="secondary-btn hidden">
+                            Cancel Edit
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <section class="panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">FOCUS SESSION</p>
+                        <h2>Active Timer</h2>
+                    </div>
+
+                    <button id="expandTimerBtn" class="secondary-btn">
+                        ⛶ Full Screen
+                    </button>
+                </div>
+
+                <div id="activeTimerContent" class="active-timer-content">
+                    <p class="muted-text">
+                        No active task. Start a task to begin tracking time.
+                    </p>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="section-heading task-list-heading">
+                    <div>
+                        <p class="eyebrow">YOUR WORKLOAD</p>
+                        <h2>My Tasks</h2>
+                    </div>
+
+                    <div class="task-filters">
+                        <select id="statusFilter" aria-label="Filter tasks">
+                            <option value="All">All Tasks</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+
+                        <select id="sortTasks" aria-label="Sort tasks">
+                            <option value="date">Sort by date</option>
+                            <option value="priority">Sort by priority</option>
+                            <option value="newest">Newest first</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="taskList" class="task-list">
+                    <div class="empty-state">
+                        <h3>No tasks yet</h3>
+                        <p>Create your first task using the form above.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel analytics-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">YOUR PERFORMANCE</p>
+                        <h2>Productivity Analytics</h2>
+                    </div>
+
+                    <select id="analyticsPeriod">
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+
+                <div class="analytics-grid">
+                    <article class="analytics-card">
+                        <p>Tasks Completed</p>
+                        <h3 id="analyticsCompleted">0</h3>
+                    </article>
+
+                    <article class="analytics-card">
+                        <p>Total Tasks</p>
+                        <h3 id="analyticsTotal">0</h3>
+                    </article>
+
+                    <article class="analytics-card">
+                        <p>Completion Rate</p>
+                        <h3 id="analyticsRate">0%</h3>
+                    </article>
+
+                    <article class="analytics-card">
+                        <p>Time Tracked</p>
+                        <h3 id="analyticsTime">0m</h3>
+                    </article>
+                </div>
+
+                <div class="chart-container">
+                    <h3 id="chartTitle">Daily Activity</h3>
+                    <div id="analyticsChart" class="bar-chart"></div>
+                </div>
+
+                <p id="analyticsDescription" class="muted-text"></p>
+            </section>
+
+            <section class="panel data-panel">
+                <div>
+                    <p class="eyebrow">YOUR DATA</p>
+                    <h2>Data Management</h2>
+                    <p class="muted-text">
+                        Export your tasks as a backup or import a previous backup.
+                    </p>
+                </div>
+
+                <div class="data-actions">
+                    <button id="exportBtn" class="secondary-btn">
+                        Export Data
+                    </button>
+
+                    <label for="importFile" class="secondary-btn file-label">
+                        Import Data
+                    </label>
+
+                    <input type="file" id="importFile"
+                        accept=".json,application/json" hidden>
+                </div>
+            </section>
+
+            <footer class="footer">
+                <p>TaskCraft © 2026 · Plan Better. Focus Better.</p>
+            </footer>
+        </div>
+    </main>
+
+    <!-- FULL SCREEN TIMER -->
+    <section id="fullscreenTimer" class="fullscreen-timer hidden">
+        <button id="exitFullscreenBtn" class="fullscreen-exit">
+            ✕ Exit Full Screen
+        </button>
+
+        <div class="fullscreen-content">
+            <p class="eyebrow">TASKCRAFT FOCUS SESSION</p>
+            <h2 id="fullscreenTaskName">Your Task</h2>
+
+            <div id="fullscreenTimerDisplay" class="fullscreen-time">
+                00:00:00
+            </div>
+
+            <p id="fullscreenEstimated" class="muted-text">
+                Remaining time: 1 hour
+            </p>
+
+            <div class="fullscreen-progress">
+                <div id="fullscreenProgressBar"></div>
+            </div>
+
+            <p id="fullscreenTimerStatus" class="timer-status">
+                Ready to focus
+            </p>
+
+            <div class="fullscreen-controls">
+                <button id="fullscreenPauseBtn" class="primary-btn">
+                    Pause
+                </button>
+
+                <button id="fullscreenFinishBtn" class="secondary-btn">
+                    Finish Task
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- TIME-UP PROMPT -->
+    <section id="timeUpModal" class="modal-overlay hidden"
+        role="dialog" aria-modal="true" aria-labelledby="timeUpTitle">
+
+        <div class="time-up-card">
+            <div class="time-up-icon">⏰</div>
+
+            <p class="eyebrow">FOCUS SESSION COMPLETE</p>
+            <h2 id="timeUpTitle">Your estimated time is over!</h2>
+
+            <p id="timeUpTaskName" class="time-up-task"></p>
+
+            <p class="muted-text">
+                Your timer has been paused. Is your task complete?
+            </p>
+
+            <div class="time-up-actions">
+                <button id="timeUpCompleteBtn" class="primary-btn">
+                    Yes, Mark as Complete
+                </button>
+
+                <button id="timeUpExtendBtn" class="secondary-btn">
+                    Add 15 Minutes
+                </button>
+
+                <button id="timeUpPauseBtn" class="secondary-btn">
+                    Not Yet — Keep Paused
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
